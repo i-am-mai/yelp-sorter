@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 struct YelpBusiness {
     // Each property corresponds to the value with the same name in the yelp_academic_dataset_business json file.
@@ -18,14 +18,21 @@ struct YelpBusiness {
     bool isOpen;
     std::map<std::string, std::string> attributes;
     std::vector<std::string> categories;
-    std::map<std::string, std::string> hours;
+    std::unordered_map<std::string, std::string> hours;
 
-    // Prints information about the business.
-    void print() {
-        std::cout << "Name: " << name << std::endl;
-        std::cout << "Address: " << address << ", " << city << ", " << state << " " << postalCode << std::endl;
-        std::cout << "Coordinates: " << latitude << ", " << longitude << std::endl;
-        std::cout << "Stars: " << stars << std::endl;
-        std::cout << "Reviews: " << reviewCount << std::endl;
-    }
+    void print();
 };
+
+// Prints information about the business.
+void YelpBusiness::print() {
+    std::cout << "Name: " << name << std::endl;
+    std::cout << "Address: " << address << ", " << city << ", " << state << " " << postalCode << std::endl;
+    std::cout << "Stars: " << stars << std::endl;
+    std::cout << "Reviews: " << reviewCount << std::endl;
+    std::cout << "Hours: " << std::endl;
+
+    std::vector<std::string> days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+    for (auto& day : days) {
+        std::cout << "\t" << day << ": " << hours[day] << std::endl;
+    }
+}
