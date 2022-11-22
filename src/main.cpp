@@ -59,7 +59,6 @@ void loadData(std::vector<YelpBusiness>& data) {
         for (json::iterator it = j["hours"].begin(); it != j["hours"].end(); it++) {
             business.hours[(std::string) it.key()] = (std::string) it.value();
         }
-        business.print();
         data.push_back(business);
     }
 }
