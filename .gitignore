@@ -1,3 +1,3 @@
 assets/yelp_dataset/
 .vscode
-test.exe
+build/*.exe

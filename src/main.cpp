@@ -19,7 +19,7 @@ int main() {
  * data from the yelp_academic_dataset_business.json file
  */
 void loadData(std::vector<YelpBusiness>& data) {
-    std::ifstream file("./assets/yelp_academic_dataset_business.json");
+    std::ifstream file("assets/yelp_academic_dataset_business.json");
     std::string temp;
     while (getline(file, temp)) {
         json j = json::parse(temp);
@@ -59,6 +59,7 @@ void loadData(std::vector<YelpBusiness>& data) {
         for (json::iterator it = j["hours"].begin(); it != j["hours"].end(); it++) {
             business.hours[(std::string) it.key()] = (std::string) it.value();
         }
+        business.print();
         data.push_back(business);
     }
 }
