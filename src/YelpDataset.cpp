@@ -54,7 +54,20 @@ void YelpDataset::loadData(std::vector<YelpBusiness>& data) {
         catch (...) {
         }
         for (json::iterator it = j["hours"].begin(); it != j["hours"].end(); it++) {
-            business.hours[(std::string) it.key()] = (std::string) it.value();
+            std::string hour = (std::string) it.value();
+            std::size_t found = hour.find('-');
+            if (found != std::string::npos) {
+                std::string openTime = hour.substr(0, found);
+                std::string closeTime = hour.substr(found + 1);
+                if (openTime.substr(openTime.find(':')).length() < 3) {
+                    openTime = openTime + "0";
+                }
+                if (closeTime.substr(closeTime.find(':')).length() < 3) {
+                    closeTime = closeTime + "0";
+                }
+                hour = openTime + "-" + closeTime;
+            }
+            business.hours[(std::string) it.key()] = hour;
         }
         business.print();
         data.push_back(business);
