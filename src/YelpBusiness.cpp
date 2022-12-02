@@ -12,7 +12,11 @@ void YelpBusiness::print() {
 
     std::vector<std::string> days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
     for (auto& day : days) {
-        std::cout << "\t" << day << ": " << hours[day] << std::endl;
+        std::cout << "\t" << day << ": ";
+        if (hours[day] != "")
+            std::cout << hours[day] << std::endl;
+        else
+            std::cout << "Closed" << std::endl;
     }
 }
 
