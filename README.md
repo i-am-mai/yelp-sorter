@@ -12,9 +12,9 @@ cd yelp-sorter
 ```
 Compile the source files.
 ```
-g++ -std=c++11 -o build/yelp-sorter src/*.cpp
+g++ -std=c++11 -o build/test src/*.cpp
 ```
 Then run the executable.
 ```
-build/yelp-sorter
+build/test
 ```
