@@ -34,6 +34,7 @@ void YelpDataset::loadData(std::vector<YelpBusiness>& data) {
         business.stars = j["stars"];
         business.reviewCount = j["review_count"];
         business.isOpen = j["is_open"] == 1 ? true : false;
+        business.makeRating(business.stars, business.reviewCount);
 
         for (json::iterator it = j["attributes"].begin(); it != j["attributes"].end(); it++) {
             business.attributes[(std::string) it.key()] = (std::string) it.value();
