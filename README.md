@@ -16,5 +16,6 @@ g++ -std=c++11 -o build/test src/*.cpp
 ```
 Then run the executable.
 ```
-build/test
+cd build
+./test
 ```
