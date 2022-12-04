@@ -18,7 +18,7 @@ YelpDataset::YelpDataset(double userLat, double userLng) {
  */
 
 void YelpDataset::loadData(std::vector<YelpBusiness>& data) {
-    std::ifstream file("../assets/yelp_dataset2.json");
+    std::ifstream file("../assets/yelp_academic_dataset_business.json");
     std::string temp;
     while (getline(file, temp)) {
         json j = json::parse(temp);
