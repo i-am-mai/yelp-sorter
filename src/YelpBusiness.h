@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 struct YelpBusiness {
+    
     // Each property corresponds to the value with the same name in the yelp_academic_dataset_business json file.
     std::string businessID;
     std::string name;
@@ -14,10 +15,10 @@ struct YelpBusiness {
 
     double latitude;
     double longitude;
-    double distance;
+    double distance;    // Distance from the user
 
     double stars;
-    double rating;  // Our own rating of the Yelp business based on the Bayesian average. 
+    double rating;      // Our own rating of the Yelp business based on the Bayesian average. 
     int reviewCount;
     bool isOpen;
 

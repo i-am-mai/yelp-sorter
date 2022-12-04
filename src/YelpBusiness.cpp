@@ -22,6 +22,7 @@ void YelpBusiness::print() {
     }
 }
 
+// Creates a Bayesian average rating
 void YelpBusiness::makeRating(double stars, int reviewCount) {
     double avgRating = 3.0;     // Yelp ratings range from 1.0 to 5.0; 3.0 is the middle value.
     int numReviewsNeeded = 7;   // 7 reviews are needed to be sure of a rating.
@@ -30,6 +31,7 @@ void YelpBusiness::makeRating(double stars, int reviewCount) {
     this->rating = ((avgRating * numReviewsNeeded) + (stars * reviewCount)) / (numReviewsNeeded + reviewCount);
 }
 
+// Calculates distance of business from the user
 void YelpBusiness::calculateDistance(double lat, double lng) {
 
     // Calculation of distance adapted from: https://www.themathdoctors.org/distances-on-earth-1-the-cosine-formula/

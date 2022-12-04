@@ -13,6 +13,8 @@ int main() {
 
     double latitude = 0.0;
     double longitude = 0.0;
+
+    // Gets user coordinates
     while (true) {
         std::cout << "Enter your coordinates." << std::endl;
         std::cout << "Latitude: ";
@@ -73,12 +75,12 @@ int main() {
         }
     }
 }
-    //syntax:
-    //first slot: 1 = mergesort, 2 = quicksort
-    //second slot: 1 = stars, 2 = ratings, 3 = distance
-    //third: "is descending": false = ordered logically, highest stars, rating, lowest distance | true = illogically, lowest stars and ratings, highest distance
+    // Syntax for sortTimer:
+    // First slot: 1 = mergesort, 2 = quicksort
+    // Second slot: 1 = stars, 2 = ratings, 3 = distance
+    // Third slot: "is descending": false = ordered logically, highest stars, rating, lowest distance | true = illogically, lowest stars and ratings, highest distance
 
-
+// Gets user choice of attribute to sort by
 int menu() {
     std::cout << "_______________________________" << std::endl;
     std::cout << "============ MENU =============" << std::endl;
@@ -100,6 +102,7 @@ int menu() {
     return std::stoi(choice);
 }
 
+// Returns user choice of either merge sort or quicksort
 int sortChoice() {
     std::cout << "===============================" << std::endl;
     std::cout << "Choose a sort: " << std::endl;
@@ -119,6 +122,7 @@ int sortChoice() {
     return std::stoi(choice);
 }
 
+// Returns user choice of descending or ascending sort order
 bool sortOrder() {
     std::cout << "===============================" << std::endl;
     std::cout << "Choose a sort order: " << std::endl;
