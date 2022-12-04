@@ -30,10 +30,7 @@ void YelpBusiness::makeRating(double stars, int reviewCount) {
     this->rating = ((avgRating * numReviewsNeeded) + (stars * reviewCount)) / (numReviewsNeeded + reviewCount);
 }
 
-void YelpBusiness::calculateDistance(double lat, double lng) { //UF is at 29.64833 -82.34944 //replace this with the better calculation
-    // double locLat = this->latitude;
-    // double locLng = this->longitude;
-    // this->distance = std::sqrt(std::pow(lat - locLat, 2) + std::pow(lng - locLng, 2));
+void YelpBusiness::calculateDistance(double lat, double lng) {
 
     // Calculation of distance adapted from: https://www.themathdoctors.org/distances-on-earth-1-the-cosine-formula/
     double R = 3963.1;     // Earth's radius in 3963 miles.
