@@ -7,81 +7,18 @@
 
 using json = nlohmann::json;
 
-YelpDataset::YelpDataset() {
-    loadData(data, ufLat, ufLng);
-}
-
-YelpDataset::YelpDataset(int userLat, int userLng)
-{
-    loadData(data, userLat, userLng);
+YelpDataset::YelpDataset(double userLat, double userLng) {
+    this->userLat = userLat;
+    this->userLng = userLng;
+    loadData(data);
 }
 
 /* Takes in a reference to a YelpBusiness vector and loads it with
  * data from the yelp_academic_dataset_business.json file
  */
 
-//void YelpDataset::loadData(std::vector<YelpBusiness>& data) {
-//    std::ifstream file("../assets/yelp_academic_dataset_business2.json");
-//    std::string temp;
-//    while (getline(file, temp)) {
-//        json j = json::parse(temp);
-//
-//        YelpBusiness business;
-//
-//        // Add data about the business to the YelpBusiness object.
-//        business.businessID = j["business_id"];
-//        business.name = j["name"];
-//        business.address = j["address"];
-//        business.city = j["city"];
-//        business.state = j["state"];
-//        business.postalCode = j["postal_code"];
-//        business.latitude = j["latitude"];
-//        business.longitude = j["longitude"];
-//        business.stars = j["stars"];
-//        business.reviewCount = j["review_count"];
-//        business.isOpen = j["is_open"] == 1 ? true : false;
-//        business.makeRating(business.stars, business.reviewCount);
-//
-//        for (json::iterator it = j["attributes"].begin(); it != j["attributes"].end(); it++) {
-//            business.attributes[(std::string) it.key()] = (std::string) it.value();
-//        }
-//
-//        // Try-catch block is necessary in case the business has no categories.
-//        try {
-//            std::istringstream temp((std::string) j["categories"]);
-//            std::string category;
-//            while (getline(temp, category, ',')) {
-//                if (category[0] == ' ') {
-//                    category = category.substr(1);
-//                }
-//                business.categories.push_back(category);
-//            }
-//        }
-//        catch (...) {
-//        }
-//        for (json::iterator it = j["hours"].begin(); it != j["hours"].end(); it++) {
-//            std::string hour = (std::string) it.value();
-//            std::size_t found = hour.find('-');
-//            if (found != std::string::npos) {
-//                std::string openTime = hour.substr(0, found);
-//                std::string closeTime = hour.substr(found + 1);
-//                if (openTime.substr(openTime.find(':')).length() < 3) {
-//                    openTime = openTime + "0";
-//                }
-//                if (closeTime.substr(closeTime.find(':')).length() < 3) {
-//                    closeTime = closeTime + "0";
-//                }
-//                hour = openTime + "-" + closeTime;
-//            }
-//            business.hours[(std::string) it.key()] = hour;
-//        }
-//        business.print();
-//        data.push_back(business);
-//    }
-//}
-
-void YelpDataset::loadData(std::vector<YelpBusiness>& data, int lat, int lng) {
-    std::ifstream file("../assets/yelp_academic_dataset_business2.json");
+void YelpDataset::loadData(std::vector<YelpBusiness>& data) {
+    std::ifstream file("../assets/yelp_dataset2.json");
     std::string temp;
     while (getline(file, temp)) {
         json j = json::parse(temp);
@@ -101,7 +38,7 @@ void YelpDataset::loadData(std::vector<YelpBusiness>& data, int lat, int lng) {
         business.reviewCount = j["review_count"];
         business.isOpen = j["is_open"] == 1 ? true : false;
         business.makeRating(business.stars, business.reviewCount);
-        business.calculateDistance(lat, lng); //did this here because i thought it would be easier
+        business.calculateDistance(userLat, userLng); //did this here because I thought it would be easier
 
         for (json::iterator it = j["attributes"].begin(); it != j["attributes"].end(); it++) {
             business.attributes[(std::string)it.key()] = (std::string)it.value();
@@ -136,7 +73,7 @@ void YelpDataset::loadData(std::vector<YelpBusiness>& data, int lat, int lng) {
             }
             business.hours[(std::string)it.key()] = hour;
         }
-        business.print();
+        // business.print();
         data.push_back(business);
     }
 }
@@ -280,7 +217,7 @@ std::vector<YelpBusiness> YelpDataset::quickSortCaller(std::vector<YelpBusiness>
     return vec;
 }
 
-void YelpDataset::sortTimer(int type, int sortKind, bool descending) {
+std::vector<YelpBusiness> YelpDataset::sortTimer(int type, int sortKind, bool descending) {
     auto initialTime = std::chrono::steady_clock::now();
     std::vector<YelpBusiness> returnVec;
 
@@ -292,9 +229,7 @@ void YelpDataset::sortTimer(int type, int sortKind, bool descending) {
     }
     auto finalTime = std::chrono::steady_clock::now();
     std::chrono::duration<double> dur = std::chrono::duration_cast<std::chrono::duration<double>>(finalTime - initialTime);
-    std::cout << "<>----< search duration: " << dur.count() << " >----<>\n";
+    std::cout << "<>----< Sort Duration: " << dur.count() << " s >----<>\n";
 
-    for (int i = 0; i < returnVec.size(); i++) {
-        returnVec[i].print();
-    }
+    return returnVec;
 }
