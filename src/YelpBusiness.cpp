@@ -5,11 +5,11 @@
 // Prints information about the business.
 void YelpBusiness::print() {
     std::cout << "Name: " << name << std::endl;
-    std::cout << "Address: " << address << ", " << city << ", " << state << " " << postalCode << std::endl;
+    std::cout << "Address: " << (address != "" ? address + ", " : "") << city << ", " << state << " " << postalCode << std::endl;
     std::cout << "Stars: " << stars << std::endl;
     std::cout << "Reviews: " << reviewCount << std::endl;
     std::cout << "Weighted Rating: " << std::fixed << std::setprecision(2) << rating << std::endl;
-    std::cout << "Distance: " << std::fixed << std::setprecision(2) << distance << std::endl;
+    std::cout << "Distance: " << std::fixed << std::setprecision(2) << distance << " miles" << std::endl;
     std::cout << "Hours: " << std::endl;
 
     std::vector<std::string> days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
@@ -18,7 +18,7 @@ void YelpBusiness::print() {
         if (hours[day] != "")
             std::cout << hours[day] << std::endl;
         else
-            std::cout << "Closed" << std::endl;
+            std::cout << "No hours" << std::endl;
     }
 }
 
@@ -31,7 +31,17 @@ void YelpBusiness::makeRating(double stars, int reviewCount) {
 }
 
 void YelpBusiness::calculateDistance(double lat, double lng) { //UF is at 29.64833 -82.34944 //replace this with the better calculation
-    double locLat = this->latitude;
-    double locLng = this->longitude;
-    this->distance = std::sqrt(std::pow(lat - locLat, 2) + std::pow(lng - locLng, 2));
+    // double locLat = this->latitude;
+    // double locLng = this->longitude;
+    // this->distance = std::sqrt(std::pow(lat - locLat, 2) + std::pow(lng - locLng, 2));
+
+    // Calculation of distance adapted from: https://www.themathdoctors.org/distances-on-earth-1-the-cosine-formula/
+    double R = 3963.1;     // Earth's radius in 3963 miles.
+    double pi = 3.14159265358979323846;
+    double lat1 = lat * pi / 180;
+    double lat2 = latitude * pi / 180;
+    double lng1 = lng * pi / 180;
+    double lng2 = longitude * pi / 180;
+
+    this->distance = R * acos(sin(lat1)*sin(lat2) + cos(lat1)*cos(lat2)*cos(lng1 - lng2));
 }
