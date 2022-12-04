@@ -11,16 +11,21 @@ struct YelpBusiness {
     std::string city;
     std::string state;
     std::string postalCode;
+
     double latitude;
     double longitude;
+    double distance;
+
     double stars;
     double rating;  // Our own rating of the Yelp business based on the Bayesian average. 
     int reviewCount;
     bool isOpen;
+
     std::unordered_map<std::string, std::string> attributes;
     std::vector<std::string> categories;
     std::unordered_map<std::string, std::string> hours;
 
     void print();
     void makeRating(double stars, int reviewCount);
+    void calculateDistance(double lat, double lng);
 };
