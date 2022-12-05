@@ -6,7 +6,7 @@
 void YelpBusiness::print() {
     std::cout << "Name: " << name << std::endl;
     std::cout << "Address: " << (address != "" ? address + ", " : "") << city << ", " << state << " " << postalCode << std::endl;
-    std::cout << "Stars: " << stars << std::endl;
+    std::cout << "Stars: " << std::fixed << std::setprecision(1) << stars << std::endl;
     std::cout << "Reviews: " << reviewCount << std::endl;
     std::cout << "Weighted Rating: " << std::fixed << std::setprecision(2) << rating << std::endl;
     std::cout << "Distance: " << std::fixed << std::setprecision(2) << distance << " miles" << std::endl;
