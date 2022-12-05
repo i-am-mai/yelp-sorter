@@ -37,6 +37,8 @@ void YelpBusiness::calculateDistance(double lat, double lng) {
     // Calculation of distance adapted from: https://www.themathdoctors.org/distances-on-earth-1-the-cosine-formula/
     double R = 3963.1;     // Earth's radius in 3963 miles.
     double pi = 3.14159265358979323846;
+
+    // Converts coordinates from degrees to radians.
     double lat1 = lat * pi / 180;
     double lat2 = latitude * pi / 180;
     double lng1 = lng * pi / 180;
