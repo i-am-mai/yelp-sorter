@@ -13,10 +13,7 @@ YelpDataset::YelpDataset(double userLat, double userLng) {
     loadData(data);
 }
 
-/* Takes in a reference to a YelpBusiness vector and loads it with
- * data from the yelp_academic_dataset_business.json file
- */
-
+// Loads a YelpBusiness vector with data from the yelp_academic_dataset_business.json file
 void YelpDataset::loadData(std::vector<YelpBusiness>& data) {
     std::ifstream file("../assets/yelp_academic_dataset_business.json");
     std::string temp;
@@ -38,7 +35,7 @@ void YelpDataset::loadData(std::vector<YelpBusiness>& data) {
         business.reviewCount = j["review_count"];
         business.isOpen = j["is_open"] == 1 ? true : false;
         business.makeRating(business.stars, business.reviewCount);
-        business.calculateDistance(userLat, userLng); //did this here because I thought it would be easier
+        business.calculateDistance(userLat, userLng); 
 
         for (json::iterator it = j["attributes"].begin(); it != j["attributes"].end(); it++) {
             business.attributes[(std::string)it.key()] = (std::string)it.value();
@@ -57,6 +54,7 @@ void YelpDataset::loadData(std::vector<YelpBusiness>& data) {
         }
         catch (...) {
         }
+        // Adds hours to the business and properly formats them.
         for (json::iterator it = j["hours"].begin(); it != j["hours"].end(); it++) {
             std::string hour = (std::string)it.value();
             std::size_t found = hour.find('-');
@@ -73,11 +71,11 @@ void YelpDataset::loadData(std::vector<YelpBusiness>& data) {
             }
             business.hours[(std::string)it.key()] = hour;
         }
-        // business.print();
         data.push_back(business);
     }
 }
 
+// Implements merge for merge sort.
 void YelpDataset::merge(std::vector<YelpBusiness>& vec, int low, int mid, int high, int sortKind, bool descending) {
 
     std::vector<YelpBusiness> temp;
@@ -90,7 +88,7 @@ void YelpDataset::merge(std::vector<YelpBusiness>& vec, int low, int mid, int hi
         mult = -1;
     }
 
-    if (sortKind == 1) { //stars
+    if (sortKind == 1) {        // Sorts by stars
         while (templow < mid + 1 && tempmid < high + 1) {
 
             if (vec[templow].stars * mult <= vec[tempmid].stars * mult) {
@@ -103,7 +101,7 @@ void YelpDataset::merge(std::vector<YelpBusiness>& vec, int low, int mid, int hi
             }
         }
     }
-    else if (sortKind == 2) { //rating
+    else if (sortKind == 2) {   // Sorts by rating
         while (templow < mid + 1 && tempmid < high + 1) {
 
             if (vec[templow].rating * mult <= vec[tempmid].rating * mult) {
@@ -116,7 +114,7 @@ void YelpDataset::merge(std::vector<YelpBusiness>& vec, int low, int mid, int hi
             }
         }
     }
-    else if (sortKind == 3) { //distance
+    else if (sortKind == 3) {   // Sorts by distance
         while (templow < mid + 1 && tempmid < high + 1) {
 
             if (vec[templow].distance * -mult <= vec[tempmid].distance * -mult) {
@@ -130,6 +128,7 @@ void YelpDataset::merge(std::vector<YelpBusiness>& vec, int low, int mid, int hi
         }
     }
 
+    // Adds the remaining items to the merged list
     for (int i = templow; i < mid + 1; i++) {
         temp.push_back(vec[i]);
     }
@@ -138,12 +137,14 @@ void YelpDataset::merge(std::vector<YelpBusiness>& vec, int low, int mid, int hi
         temp.push_back(vec[i]);
     }
 
+    // Adds the merged list to the original vector
     for (int i = low; i < high + 1; i++) {
         vec[i] = temp[i - low];
     }
 
 }
 
+// Driver function for merge sort
 void YelpDataset::mergeSort(std::vector<YelpBusiness>& vec, int low, int high, int sortKind, bool descending) {
     if (low < high) {
 
@@ -156,12 +157,14 @@ void YelpDataset::mergeSort(std::vector<YelpBusiness>& vec, int low, int high, i
     }
 }
 
+// Calls merge sort and returns the sorted data
 std::vector<YelpBusiness> YelpDataset::mergeSortCaller(std::vector<YelpBusiness> vec, int sortKind, bool descending) {
     mergeSort(vec, 0, vec.size() - 1, sortKind, descending);
 
     return vec;
 }
 
+// Implements partition for quick sort, returning a pivot index.
 int YelpDataset::partition(std::vector<YelpBusiness>& vec, int low, int high, double piv, int sortKind, bool descending) {
     int templow = low;
     int pos = low;
@@ -190,6 +193,8 @@ int YelpDataset::partition(std::vector<YelpBusiness>& vec, int low, int high, do
     return pos - 1;
 }
 
+
+// Driver for the quicksort algorithm
 void YelpDataset::quickSort(std::vector<YelpBusiness>& vec, int low, int high, int sortKind, bool descending) {
     if (low < high) {
         double piv;
@@ -203,7 +208,6 @@ void YelpDataset::quickSort(std::vector<YelpBusiness>& vec, int low, int high, i
             piv = vec[high].distance * -1;
         }
 
-        //double piv = vec[high].stars;
         int pos = partition(vec, low, high, piv, sortKind, descending);
 
         quickSort(vec, low, pos - 1, sortKind, descending);
@@ -211,12 +215,14 @@ void YelpDataset::quickSort(std::vector<YelpBusiness>& vec, int low, int high, i
     }
 }
 
+// Calls the quicksort function and returns the sorted data.
 std::vector<YelpBusiness> YelpDataset::quickSortCaller(std::vector<YelpBusiness> vec, int sortKind, bool descending) {
     quickSort(vec, 0, vec.size() - 1, sortKind, descending);
 
     return vec;
 }
 
+// Calls each respective sorting function, times it, then returns the sorted data.
 std::vector<YelpBusiness> YelpDataset::sortTimer(int type, int sortKind, bool descending) {
     auto initialTime = std::chrono::steady_clock::now();
     std::vector<YelpBusiness> returnVec;
