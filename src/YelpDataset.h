@@ -2,11 +2,8 @@
 
 class YelpDataset {
 private:
-    //std::vector<YelpBusiness> data;
-    //void loadData(std::vector<YelpBusiness>& data);
-
-    double ufLat = 29.64833;
-    double ufLng = -82.34944;
+    std::vector<YelpBusiness> data;
+    
     double userLat;
     double userLng;
     
@@ -17,8 +14,6 @@ private:
 
     int partition(std::vector<YelpBusiness>& vec, int low, int high, double piv, int sortKind, bool descending);
     void quickSort(std::vector<YelpBusiness>& vec, int low, int high, int sortKind, bool descending);
-
-    std::vector<YelpBusiness> data;
 
 public:
     YelpDataset(double userLat, double userLng);
