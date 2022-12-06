@@ -60,7 +60,8 @@ int main() {
         std::this_thread::sleep_for(std::chrono::seconds(1));
 
         int i = 0;
-        std::string continueChoice = "";
+        std::cin.ignore();
+        std::string continueChoice;
         while (i < sorted.size() && continueChoice != "q") {
             int stop = i + 10;
             for (; i < sorted.size() && i < stop; i++) {
@@ -82,21 +83,24 @@ int main() {
 
 // Gets user choice of attribute to sort by
 int menu() {
-    std::cout << "_______________________________" << std::endl;
-    std::cout << "============ MENU =============" << std::endl;
-    std::cout << "1. Sort by stars" << std::endl;
-    std::cout << "2. Sort by rating" << std::endl;
-    std::cout << "3. Sort by distance" << std::endl;
-    std::cout << "4. Quit" << std::endl;
-    std::cout << "===============================" << std::endl;
-    std::cout << "Choice: ";
     std::string choice = "";
+    while (true) {
+        std::cout << "_______________________________" << std::endl;
+        std::cout << "============ MENU =============" << std::endl;
+        std::cout << "1. Sort by stars" << std::endl;
+        std::cout << "2. Sort by rating" << std::endl;
+        std::cout << "3. Sort by distance" << std::endl;
+        std::cout << "4. Quit" << std::endl;
+        std::cout << "===============================" << std::endl;
+        std::cout << "Choice: ";
 
-    std::cin >> choice;
+        std::cin >> choice;
 
-    if (choice != "1" && choice != "2" && choice != "3" && choice != "4") {
-        std::cout << "Invalid choice." << std::endl;
-        menu();
+        if (choice != "1" && choice != "2" && choice != "3" && choice != "4") {
+            std::cout << "Invalid choice." << std::endl;
+            continue;
+        }
+        break;
     }
 
     return std::stoi(choice);
@@ -104,19 +108,22 @@ int menu() {
 
 // Returns user choice of either merge sort or quicksort
 int sortChoice() {
-    std::cout << "===============================" << std::endl;
-    std::cout << "Choose a sort: " << std::endl;
-    std::cout << "1. Merge sort" << std::endl;
-    std::cout << "2. Quicksort" << std::endl;
-    std::cout << "===============================" << std::endl;
-    std::cout << "Choice: ";
     std::string choice = "";
-    
-    std::cin >> choice;
+    while (true) {
+        std::cout << "===============================" << std::endl;
+        std::cout << "Choose a sort: " << std::endl;
+        std::cout << "1. Merge sort" << std::endl;
+        std::cout << "2. Quicksort" << std::endl;
+        std::cout << "===============================" << std::endl;
+        std::cout << "Choice: ";
+        
+        std::cin >> choice;
 
-    if (choice != "1" && choice != "2") {
-        std::cout << "Invalid choice." << std::endl;
-        sortChoice();
+        if (choice != "1" && choice != "2") {
+            std::cout << "Invalid choice." << std::endl;
+            continue;
+        }
+        break;
     }
 
     return std::stoi(choice);
@@ -124,27 +131,29 @@ int sortChoice() {
 
 // Returns user choice of descending or ascending sort order
 bool sortOrder() {
-    std::cout << "===============================" << std::endl;
-    std::cout << "Choose a sort order: " << std::endl;
-    std::cout << "1. Descending" << std::endl;
-    std::cout << "2. Ascending" << std::endl;
-    std::cout << "===============================" << std::endl;
-    std::cout << "Choice: ";
     std::string choice = "";
-    
-    std::cin >> choice;
-
     bool order;
+    while (true) {
+        std::cout << "===============================" << std::endl;
+        std::cout << "Choose a sort order: " << std::endl;
+        std::cout << "1. Descending" << std::endl;
+        std::cout << "2. Ascending" << std::endl;
+        std::cout << "===============================" << std::endl;
+        std::cout << "Choice: ";
+        
+        std::cin >> choice;
 
-    if (choice == "1") {
-        order = false;
-    }
-    else if (choice == "2") {
-        order = true;
-    }
-    else {
-        std::cout << "Invalid choice." << std::endl;
-        sortChoice();
+        if (choice == "1") {
+            order = false;
+        }
+        else if (choice == "2") {
+            order = true;
+        }
+        else {
+            std::cout << "Invalid choice." << std::endl;
+            continue;
+        }
+        break;
     }
 
     return order;
