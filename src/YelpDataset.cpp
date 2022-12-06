@@ -166,87 +166,52 @@ std::vector<YelpBusiness> YelpDataset::mergeSortCaller(std::vector<YelpBusiness>
 
 // Implements partition for quick sort, returning a pivot index.
 int YelpDataset::partition(std::vector<YelpBusiness>& vec, int low, int high, double piv, int sortKind, bool descending) {
-    int up = low;
-    int down = high;
-    int mult = 1;
-    while (up < down) {
-        for (int j = up; j < high; j++) {
-            double comparator;
-            if (!descending) {
-                mult = -1;
-            }
-            if (sortKind == 1) {
-                comparator = vec[j].stars;
-            }
-            else if (sortKind == 2) {
-                comparator = vec[j].rating;
-            }
-            else if (sortKind == 3) {
-                comparator = vec[j].distance * -1;
-            }
-            if (comparator * mult > piv * mult) {
-                break;
-            }
-            up++;
+    int templow = low;
+    int pos = low;
+    for (int i = low; i < high + 1; i++) {
+        double comparator;
+        int mult = 1;
+        if (!descending) {
+            mult = -1;
         }
-        for (int j = down; j > low; j--) {
-            double comparator;
-            if (!descending) {
-                mult = -1;
-            }
-            if (sortKind == 1) {
-                comparator = vec[j].stars;
-            }
-            else if (sortKind == 2) {
-                comparator = vec[j].rating;
-            }
-            else if (sortKind == 3) {
-                comparator = vec[j].distance * -1;
-            }
-            if (comparator * mult < piv * mult) {
-                break;
-            }
-            down--;
+        if (sortKind == 1) {
+            comparator = vec[i].stars;
         }
-        if (up < down) {
-            YelpBusiness temp = vec[up];
-            vec[up] = vec[down];
-            vec[down] = temp;
+        else if (sortKind == 2) {
+            comparator = vec[i].rating;
+        }
+        else if (sortKind == 3) {
+            comparator = vec[i].distance * -1;
+        }
+        if (!(comparator * mult > piv * mult)) {
+            YelpBusiness temp = vec[i];
+            vec[i] = vec[pos];
+            vec[pos] = temp;
+            pos++;
         }
     }
-    YelpBusiness temp = vec[low];
-    vec[low] = vec[down];
-    vec[down] = vec[low];
-    return down;
+    return pos - 1;
 }
+
 
 // Driver for the quicksort algorithm
 void YelpDataset::quickSort(std::vector<YelpBusiness>& vec, int low, int high, int sortKind, bool descending) {
-    while (low < high) {
+    if (low < high) {
         double piv;
         if (sortKind == 1) {
-            piv = vec[low].stars;
+            piv = vec[high].stars;
         }
         else if (sortKind == 2) {
-            piv = vec[low].rating;
+            piv = vec[high].rating;
         }
         else if (sortKind == 3) {
-            piv = vec[low].distance * -1;
+            piv = vec[high].distance * -1;
         }
 
         int pos = partition(vec, low, high, piv, sortKind, descending);
-        
-        // Stack overflow workaround
-        // https://stackoverflow.com/questions/33884057/quick-sort-stackoverflow-error-for-large-arrays
-        if (pos - low <= high - (pos + 1)) {
-            quickSort(vec, low, pos - 1, sortKind, descending);
-            low = pos + 1;
-        }
-        else {
-            quickSort(vec, pos + 1, high, sortKind, descending);
-            high = pos;
-        }
 
+        quickSort(vec, low, pos - 1, sortKind, descending);
+        quickSort(vec, pos + 1, high, sortKind, descending);
     }
 }
 
